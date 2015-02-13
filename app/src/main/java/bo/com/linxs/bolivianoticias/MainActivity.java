@@ -9,22 +9,28 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private RecyclerView mRecyclerView, mRecyclerViewBolivia,mRecyclerViewInt;
-    private RecyclerView.Adapter mAdapter, mAdapterBolivia, mAdapterInt;
-    private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBolivia,mLayoutManagerInt;
+    private RecyclerView mRecyclerView, mRecyclerViewBolivia,mRecyclerViewInt, mRecyclerViewImg;
+    private RecyclerView.Adapter mAdapter, mAdapterBolivia, mAdapterInt,mAdapterImg;
+    private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBolivia,mLayoutManagerInt,mLayoutManagerImg;
 
     String url = "http://www.boliviaentusmanos.com/app-web/get_all_portada.php";
     String url2 = "http://www.boliviaentusmanos.com/app-web/get_all_nbolivia.php";
     String url3 = "http://www.boliviaentusmanos.com/app-web/get_all_ninternacional.php";
+    String url4 = "http://www.boliviaentusmanos.com/app-web/get_all_nimagenes.php";
+
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +51,6 @@ public class MainActivity extends ActionBarActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-
 
         final ArrayList<Noticia> pojos = new ArrayList<Noticia>();
 
@@ -105,6 +109,44 @@ public class MainActivity extends ActionBarActivity {
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestB);
 
+
+        //DESDE AQUI EL DIA EN IMAGENES
+        mRecyclerViewImg = (RecyclerView) findViewById(R.id.my_recycler_view4);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerViewImg.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManagerImg = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerViewImg.setLayoutManager(mLayoutManagerImg);
+
+        final ArrayList<Noticia> imagenes = new ArrayList<Noticia>();
+
+
+        final GSONRequest gsonRequestIm = new GSONRequest(url4,Noticias.class, null, new Response.Listener<Noticias>() {
+            @Override
+            public void onResponse(Noticias response) {
+
+                for (int i = 0; i < response.getNoticias().size();i++){
+                    Noticia productItem = response.getNoticias().get(i);
+                    imagenes.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(),productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
+                }
+
+                mAdapterImg = new MyAdapterImagenDia(imagenes);
+                mRecyclerViewImg.setAdapter(mAdapterImg);
+                mRecyclerViewImg.setItemAnimator(new DefaultItemAnimator());
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error != null) Log.e("MainActivity", error.getMessage());
+                progressDialog.dismiss();
+            }
+        });
+
+        VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestIm);
+
+
         //DESDE AQUI NOTICIAS INTERNACIONALES
 
         mRecyclerViewInt = (RecyclerView) findViewById(R.id.my_recycler_view3);
@@ -137,6 +179,8 @@ public class MainActivity extends ActionBarActivity {
         });
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestI);
+
+
     }
 
 
