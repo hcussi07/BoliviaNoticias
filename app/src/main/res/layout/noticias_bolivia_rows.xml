@@ -18,16 +18,17 @@
             card_view:cardCornerRadius="0dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_margin="0dp"
                 android:layout_gravity="left"
-                android:background="#FFF">
+                android:background="#FFF"
+                android:orientation="horizontal">
 
                 <com.android.volley.toolbox.NetworkImageView
                     android:layout_width="150dp"
                     android:layout_height="100dp"
-                    android:padding="0dp"
+                    android:padding="2dp"
                     android:id="@+id/imageViewB"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -36,19 +37,12 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:id="@+id/titulob"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sad"
+                    android:id="@+id/titulob"
+                    android:textSize="14sp"/>
 
             </LinearLayout>
 

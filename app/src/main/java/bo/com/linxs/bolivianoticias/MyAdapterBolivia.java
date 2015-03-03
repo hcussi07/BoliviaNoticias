@@ -1,16 +1,14 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Intent;
-import android.hardware.display.DisplayManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -63,22 +61,31 @@ public class MyAdapterBolivia extends RecyclerView.Adapter<MyAdapterBolivia.View
             mImageLoader = VolleyHelper.getInstance(holder.view.getContext()).getImageLoader();
             mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);
         }else{
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+
             final float scale = holder.view.getResources().getDisplayMetrics().density;
-            int padding_50dp = (int) (70 * scale + 0.5f);
-            mNetworkImageView.setDefaultImageResId(R.drawable.feed);
+            int padding_50dp = (int) (50 * scale + 0.5f);
+            mNetworkImageView.setDefaultImageResId(R.drawable.ico1);
+
             CardView cardView = (CardView)holder.view.findViewById(R.id.card_viewNb1);
             android.view.ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
             layoutParams.width = layoutParams.MATCH_PARENT;
             layoutParams.height = padding_50dp;
             cardView.setLayoutParams(layoutParams);
 
-            int padding_40dp = (int) (60 * scale + 0.5f);
-            layoutParams = mNetworkImageView.getLayoutParams();
-            layoutParams.width = padding_40dp;
-            layoutParams.height = layoutParams.WRAP_CONTENT;
-            mNetworkImageView.setLayoutParams(layoutParams);
-            mNetworkImageView.setPadding(2,3,0,0);
-            mNetworkImageView.setScaleType(ImageView.ScaleType.FIT_START);
+            int padding_40dp = (int) (10 * scale + 0.5f);
+            //layoutParams = mNetworkImageView.getLayoutParams();
+
+            //LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)mNetworkImageView.getLayoutParams();
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(padding_40dp,padding_40dp);
+            //lp.width = padding_40dp;
+            //lp.height = padding_40dp;
+            //mNetworkImageView.setLayoutParams(layoutParams);
+            lp.gravity = Gravity.TOP;
+            mNetworkImageView.setLayoutParams(lp);
+            //mNetworkImageView.setPadding(15,0,0,0);
+            //mNetworkImageView.setScaleType(ImageView.ScaleType.CENTER);
+
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
