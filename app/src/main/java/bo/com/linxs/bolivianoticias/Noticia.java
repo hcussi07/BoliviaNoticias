@@ -9,14 +9,23 @@ import java.io.Serializable;
  * Created by Linxs on 09/02/2015.
  */
 public class Noticia implements Parcelable{
+//    fitem
     private String bitem;
+//    ftipo
     private String btipo;
+//    ftitulo
     private String btitulo;
+//    fdescripcion
     private String bresumen;
+//    fimagen
     private String bnota;
+//    fresumen
     private String bimagen;
+//    fcomentarios
     private String bleyenda;
+//    fautor
     private String bautor;
+//    fseo
     private String bfecha;
     private String bhora;
     private String bsector;

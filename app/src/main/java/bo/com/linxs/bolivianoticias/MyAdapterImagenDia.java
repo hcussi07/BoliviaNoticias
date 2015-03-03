@@ -1,10 +1,12 @@
 package bo.com.linxs.bolivianoticias;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -45,11 +47,30 @@ public class MyAdapterImagenDia extends RecyclerView.Adapter<MyAdapterImagenDia.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         TextView name = (TextView) holder.view.findViewById(R.id.tituloImg);
         mNetworkImageView = (NetworkImageView) holder.view.findViewById(R.id.imageViewImg);
         name.setText(pojos.get(position).getBtitulo().toString());
-        mNetworkImageView.setDefaultImageResId(R.drawable.feed);
+
+        final String  img = pojos.get(position).getBnota();
+        //TODO: estoy aqui no se ve imagesn en la portada revisar la serapracion split
+        final String[] parts = img.split("|");
+//        Toast.makeText(holder.view.getContext(),parts[0],Toast.LENGTH_LONG).show();
+        String IMAGE_URL = "http://www.boliviaentusmanos.com/fotos/galeria/"+parts[1].toString();
+        mImageLoader = VolleyHelper.getInstance(holder.view.getContext()).getImageLoader();
+        mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);
+
+//        mNetworkImageView.setDefaultImageResId(R.drawable.feed);
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.view.getContext(),ElDiaEnImagenes.class);
+                intent.putExtra("position", position);
+                intent.putExtra("part", parts[1]);
+                holder.view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
