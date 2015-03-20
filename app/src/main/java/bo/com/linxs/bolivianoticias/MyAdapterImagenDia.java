@@ -53,10 +53,10 @@ public class MyAdapterImagenDia extends RecyclerView.Adapter<MyAdapterImagenDia.
         name.setText(pojos.get(position).getBtitulo().toString());
 
         final String  img = pojos.get(position).getBnota();
-        //TODO: estoy aqui no se ve imagesn en la portada revisar la serapracion split
-        final String[] parts = img.split("|");
+
+        final String[] parts = img.split("\\|");
 //        Toast.makeText(holder.view.getContext(),parts[0],Toast.LENGTH_LONG).show();
-        String IMAGE_URL = "http://www.boliviaentusmanos.com/fotos/galeria/"+parts[1].toString();
+        String IMAGE_URL = "http://www.boliviaentusmanos.com/fotos/galeria/"+parts[0].toString();
         mImageLoader = VolleyHelper.getInstance(holder.view.getContext()).getImageLoader();
         mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);
 
@@ -67,7 +67,7 @@ public class MyAdapterImagenDia extends RecyclerView.Adapter<MyAdapterImagenDia.
             public void onClick(View v) {
                 Intent intent = new Intent(holder.view.getContext(),ElDiaEnImagenes.class);
                 intent.putExtra("position", position);
-                intent.putExtra("part", parts[1]);
+                intent.putExtra("arraylist", pojos);
                 holder.view.getContext().startActivity(intent);
             }
         });

@@ -26,7 +26,13 @@
         </activity>
         <activity
             android:name=".ElDiaEnImagenes"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:label="@string/title_activity_el_dia_en_imagenes" >
+        </activity>
+        <activity
+            android:name=".ImageViewPager"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
+            android:label="@string/title_activity_image_view_pager" >
         </activity>
     </application>
 

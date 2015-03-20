@@ -1,6 +1,5 @@
 package bo.com.linxs.bolivianoticias;
 
-import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -8,13 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 
 
-public class NoticiasDespliegue extends ActionBarActivity {
+public class ImageViewPager extends ActionBarActivity {
 
     ViewPager viewPager;
     CirclePageIndicator circlePageIndicator;
@@ -23,33 +23,27 @@ public class NoticiasDespliegue extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_noticias_despliegue);
+        setContentView(R.layout.activity_image_view_pager);
 
-        //Intent i = getIntent();
-        ArrayList<Noticia> noti = getIntent().getParcelableArrayListExtra("arraylist");
+        ArrayList<String> noti = getIntent().getStringArrayListExtra("arraylist");//.getParcelableArrayListExtra("arraylist");
         Bundle bundle = getIntent().getExtras();
         int pos = bundle.getInt("pos");
 
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        try{
-            adapter = new ViewPagerAdapter(NoticiasDespliegue.this,noti);
-        }catch (Exception e){
-            Log.e("error---->", e.toString());
-        }
-
+//        Toast.makeText(this,pos+"->"+noti.get(pos),Toast.LENGTH_SHORT).show();
+        viewPager = (ViewPager)findViewById(R.id.pagerGrande);
+        adapter = new ViewPagerAdapterGrande(ImageViewPager.this,noti);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(pos);
 
-        circlePageIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        circlePageIndicator = (CirclePageIndicator) findViewById(R.id.indicatorGrande);
         circlePageIndicator.setViewPager(viewPager);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_noticias_despliegue, menu);
+        getMenuInflater().inflate(R.menu.menu_image_view_pager, menu);
         return true;
     }
 

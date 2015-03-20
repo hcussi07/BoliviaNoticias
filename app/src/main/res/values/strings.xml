@@ -5,4 +5,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_noticias_despliegue">NoticiasDespliegue</string>
     <string name="title_activity_el_dia_en_imagenes">ElDiaEnImagenes</string>
+    <string name="title_activity_image_view_pager">ImageViewPager</string>
 </resources>
