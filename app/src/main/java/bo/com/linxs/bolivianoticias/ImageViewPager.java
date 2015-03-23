@@ -25,13 +25,14 @@ public class ImageViewPager extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_view_pager);
 
-        ArrayList<String> noti = getIntent().getStringArrayListExtra("arraylist");//.getParcelableArrayListExtra("arraylist");
+        ArrayList<String> noti = getIntent().getStringArrayListExtra("arraylist");
+        ArrayList<String> noti2 = getIntent().getStringArrayListExtra("arraylist2");
         Bundle bundle = getIntent().getExtras();
         int pos = bundle.getInt("pos");
 
-//        Toast.makeText(this,pos+"->"+noti.get(pos),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,pos+"->"+noti2.get(pos),Toast.LENGTH_SHORT).show();
         viewPager = (ViewPager)findViewById(R.id.pagerGrande);
-        adapter = new ViewPagerAdapterGrande(ImageViewPager.this,noti);
+        adapter = new ViewPagerAdapterGrande(ImageViewPager.this,noti,noti2);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(pos);

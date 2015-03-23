@@ -6,15 +6,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 
 public class ElDiaEnImagenes extends ActionBarActivity {
-    private GridView gridView;
-    private GridviewAdapter gridAdapter;
-
     ViewPager viewPager;
     CirclePageIndicator circlePageIndicator;
     PagerAdapter adapter;

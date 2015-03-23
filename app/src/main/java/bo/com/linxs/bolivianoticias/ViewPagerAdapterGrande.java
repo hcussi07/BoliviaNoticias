@@ -1,23 +1,19 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
+
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
 /**
  * Created by Linxs on 20/03/2015.
@@ -25,18 +21,18 @@ import static android.widget.ImageView.ScaleType.CENTER_CROP;
 public class ViewPagerAdapterGrande extends PagerAdapter {
     Context context;
     ArrayList<String> objnotas;
+    ArrayList<String> objnotas2;
     LayoutInflater inflater;
-
 
     static class ViewHolder{
         private ImageView img;
-
+        private TextView text;
     }
-    public ViewPagerAdapterGrande(Context context, ArrayList<String> objnotas)
+    public ViewPagerAdapterGrande(Context context, ArrayList<String> objnotas,ArrayList<String> objnotas2)
     {
         this.context = context;
         this.objnotas = objnotas;
-
+        this.objnotas2 = objnotas2;
     }
 
     @Override
@@ -55,8 +51,10 @@ public class ViewPagerAdapterGrande extends PagerAdapter {
 
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.viewpager_item_imagengrande, container, false);
-        holder.img=(ImageView)itemView.findViewById(R.id.imageViewGrande);
+        holder.img = (ImageView)itemView.findViewById(R.id.imageViewGrande);
 
+        holder.text = (TextView)itemView.findViewById(R.id.tituloImg);
+        holder.text.setText(objnotas2.get(position).toString());
 
         String url = objnotas.get(position);
 
@@ -67,29 +65,6 @@ public class ViewPagerAdapterGrande extends PagerAdapter {
                 .centerInside()
                 .into(holder.img);
 
-        /*ImageView img = null;
-        if (itemView == null) {
-//Referenciamos el ImageView
-            img = new ImageView(itemView.getContext());
-//Referenciamos el ImageView al convertView
-            itemView = img;
-            img.setPadding(5, 5, 5, 5);
-        } else {
-            img = (ImageView) itemView;
-        }
-
-        // Get the image URL for the current position.
-        String url = objnotas.get(position);
-
-        // Trigger the download of the URL asynchronously into the image view.
-        Picasso.with(itemView.getContext()) //
-                .load(url) //
-                .placeholder(R.drawable.galeria) //
-                .error(R.drawable.thumbs) //
-                .fit() //
-                .tag(itemView.getContext())
-                .centerCrop()//
-                .into(img);*/
         ((ViewPager) container).addView(itemView);
 
         return itemView;

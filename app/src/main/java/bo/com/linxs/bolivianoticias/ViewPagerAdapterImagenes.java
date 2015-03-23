@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -31,17 +32,15 @@ public class ViewPagerAdapterImagenes extends PagerAdapter {
     ArrayList<Noticia> objnotas;
     LayoutInflater inflater;
 
-
     static class ViewHolder{
         private GridView gridView;
         private GridviewAdapter gridAdapter;
-
+        private TextView titulo;
     }
     public ViewPagerAdapterImagenes(Context context, ArrayList<Noticia> objnotas)
     {
         this.context = context;
         this.objnotas = objnotas;
-
     }
 
     @Override
@@ -66,8 +65,18 @@ public class ViewPagerAdapterImagenes extends PagerAdapter {
         final ArrayList<String> lista = new ArrayList<String>();
         final String[] parts = objnotas.get(position).getBnota().split("\\|");
         for (int i = 0; i < parts.length; i++) {
-            lista.add("http://www.boliviaentusmanos.com/fotos/galeria/"+parts[i]);
+            lista.add("http://www.boliviaentusmanos.com/fotos/galeria/" + parts[i]);
         }
+
+        final ArrayList<String> lista2 = new ArrayList<String>();
+
+        final String[] parts2= objnotas.get(position).getBresumen().split("\\|");
+        for (int i = 0; i < parts2.length; i++) {
+            lista2.add(parts2[i]);
+        }
+
+        holder.titulo = (TextView)itemView.findViewById(R.id.tituloImagen);
+        holder.titulo.setText(objnotas.get(position).getBtitulo());
 
         //Construimos el adaptador pasando como
         //segundo parametro el array de imagenes
@@ -82,10 +91,10 @@ public class ViewPagerAdapterImagenes extends PagerAdapter {
             public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
                 // Launch ImageViewPager.java on selecting GridView Item
                 Intent i = new Intent(itemView.getContext().getApplicationContext(), ImageViewPager.class);
-
                 // Send the click position to ImageViewPager.java using intent
                 i.putExtra("pos", pos);
                 i.putExtra("arraylist",lista);
+                i.putExtra("arraylist2",lista2);
 
                 // Start ImageViewPager
                 itemView.getContext().startActivity(i);
