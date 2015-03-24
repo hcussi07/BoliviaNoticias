@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -142,10 +144,8 @@ public class ViewPagerAdapter extends PagerAdapter {
                     "<h5>"+mayus+"</h5>\n" +
                     "            <h1>"+objnotas.get(position).getBtitulo()+"</h1>" +
                     "<div class=\"autor\">" +
-                    "              <ul>" +
-                    "                <li class=\"datetxt\">"+objnotas.get(position).getBautor().toUpperCase()+" -</li>" +
-                    "                <li class=\"datetxt\"><time datetime=\""+formatoDeFecha.format(fecha)+"\">"+formatoDeFecha.format(fecha)+"</time></li>" +
-                    "              </ul>" +
+                    "                "+objnotas.get(position).getBautor().toUpperCase()+" -" +
+                    "                "+formatoDeFecha.format(fecha)+"" +
                     "            </div>"+
                     "<div class='txtnote'>"+objnotas.get(position).getBnota()+"</div>"+
                     "</article>" +
@@ -163,18 +163,20 @@ public class ViewPagerAdapter extends PagerAdapter {
                     "<h5>"+mayus+"</h5>\n" +
                     "            <h1>"+objnotas.get(position).getBtitulo()+"</h1>" +
                     "<div class=\"autor\">" +
-                    "              <ul>" +
-                    "                <li class=\"datetxt\">"+objnotas.get(position).getBautor().toUpperCase()+" -</li>" +
-                    "                <li class=\"datetxt\"><time datetime=\""+formatoDeFecha.format(fecha)+"\">"+formatoDeFecha.format(fecha)+"</time></li>" +
-                    "              </ul>" +
+                    "                "+objnotas.get(position).getBautor().toUpperCase()+" - " + formatoDeFecha.format(fecha) +
                     "            </div>"+
                     "<div class='nimg'><img src=\"http://www.boliviaentusmanos.com/noticias/images/"+objnotas.get(position).getBimagen()+".jpg\"></div>" +
                     "<div class='txtnote'>"+objnotas.get(position).getBnota()+"</div>"+
                     "</article>" +
                     "</section>" +
+                     "<footer></"+
                     "</div>" +
                     "</body></html>";
         }
+        holder.vistanota.getSettings().setJavaScriptEnabled(true);
+        holder.vistanota.getSettings().setPluginState(WebSettings.PluginState.ON);
+        holder.vistanota.setWebChromeClient(new WebChromeClient() {
+        });
 
         holder.vistanota.loadData(summary, "text/html; charset=UTF-8", null);
 

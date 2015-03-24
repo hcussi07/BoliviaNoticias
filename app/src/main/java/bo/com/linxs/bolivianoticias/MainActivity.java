@@ -21,14 +21,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
-    private RecyclerView mRecyclerView, mRecyclerViewBolivia,mRecyclerViewInt, mRecyclerViewImg;
-    private RecyclerView.Adapter mAdapter, mAdapterBolivia, mAdapterInt,mAdapterImg;
-    private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBolivia,mLayoutManagerInt,mLayoutManagerImg;
+    private RecyclerView mRecyclerView, mRecyclerViewBolivia,mRecyclerViewInt, mRecyclerViewImg, mRecyclerViewVideo;
+    private RecyclerView.Adapter mAdapter, mAdapterBolivia, mAdapterInt,mAdapterImg, mAdapterVideo;
+    private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBolivia,mLayoutManagerInt,mLayoutManagerImg, mLayoutManagerVideo;
 
     String url = "http://www.boliviaentusmanos.com/app-web/get_all_portada.php";
     String url2 = "http://www.boliviaentusmanos.com/app-web/get_all_nbolivia.php";
     String url3 = "http://www.boliviaentusmanos.com/app-web/get_all_ninternacional.php";
     String url4 = "http://www.boliviaentusmanos.com/app-web/get_all_nimagenes.php";
+    String url5 = "http://www.boliviaentusmanos.com/app-web/get_all_virales.php";
 
     TextView textView;
 
@@ -180,6 +181,42 @@ public class MainActivity extends ActionBarActivity {
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestI);
 
+
+        //DESDE AQUI VIDEOS VIRALES
+
+        mRecyclerViewVideo = (RecyclerView) findViewById(R.id.my_recycler_view5);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerViewVideo.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManagerVideo = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerViewVideo.setLayoutManager(mLayoutManagerVideo);
+
+        final ArrayList<Noticia> videos = new ArrayList<Noticia>();
+
+        final GSONRequest gsonRequestVideos = new GSONRequest(url5,Noticias.class, null, new Response.Listener<Noticias>() {
+            @Override
+            public void onResponse(Noticias response) {
+
+                for (int i = 0; i < response.getNoticias().size();i++){
+                    Noticia productItem = response.getNoticias().get(i);
+                    videos.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(),productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
+                }
+
+                mAdapterVideo = new MyAdapterVideosVirales(videos);
+                mRecyclerViewVideo.setAdapter(mAdapterVideo);
+                mRecyclerViewVideo.setItemAnimator(new DefaultItemAnimator());
+                //progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error != null) Log.e("MainActivity", error.getMessage());
+                progressDialog.dismiss();
+            }
+        });
+
+        VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestVideos);
 
     }
 

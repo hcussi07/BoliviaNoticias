@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".NoticiasDespliegue"
+            android:hardwareAccelerated="true"
             android:label="@string/title_activity_noticias_despliegue" >
         </activity>
         <activity
@@ -33,6 +34,11 @@
             android:name=".ImageViewPager"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:label="@string/title_activity_image_view_pager" >
+        </activity>
+        <activity
+            android:name=".VideosVirales"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
+            android:label="@string/title_activity_videos_virales" >
         </activity>
     </application>
 

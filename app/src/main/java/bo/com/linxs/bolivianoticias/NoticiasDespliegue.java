@@ -31,12 +31,8 @@ public class NoticiasDespliegue extends ActionBarActivity {
         int pos = bundle.getInt("pos");
 
         viewPager = (ViewPager)findViewById(R.id.pager);
-        try{
-            adapter = new ViewPagerAdapter(NoticiasDespliegue.this,noti);
-        }catch (Exception e){
-            Log.e("error---->", e.toString());
-        }
 
+        adapter = new ViewPagerAdapter(NoticiasDespliegue.this,noti);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(pos);
