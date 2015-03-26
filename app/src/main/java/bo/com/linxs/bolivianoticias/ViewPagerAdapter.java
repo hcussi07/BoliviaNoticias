@@ -1,12 +1,15 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Context;
+import android.net.http.SslError;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -111,6 +114,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         String css1 = "ul {list-style: none; display:block}" +
                 "li{display:block}#content{width:100%}" +
                 "section, article{display:block}" +
+                "footer{text-align:center}" +
                 "#content .autor{overflow:hidden; color:#666; margin-bottom:5px}" +
                 "#content .autor li{float:left; padding-left:2px;}" +
                 "#content .autor li.datetxt{padding-top:0px; padding-left:2px}" +
@@ -128,12 +132,21 @@ public class ViewPagerAdapter extends PagerAdapter {
                 "#content article.news .nimg{float:none;width:100%;padding-right:0px}" +
                 "#content article.news img{width:100%}" +
                 "#content article.news .nonimg{float:left;width:346px;padding-right:10px}" +
-                "#content article.news .legend{margin-right:10px;background:#E8E8E8;padding:3px 5px; font-size:11px }" +
+                "#content article.news .legend{margin-right:10px;background:#E8E8E8;padding:3px 5px; font-size:11px;}" +
                 "#content article.news p{padding:0;text-align:left}" +
                 "#content article.news h5 {font:bold 15px 'Roboto', sans-serif;color:#C71900}" +
                 "#content article.news #adds{display:none}";
+
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+
         String summary;
-        if(objnotas.get(position).getBimagen()==null){
+        String leyenda="";
+        if(!objnotas.get(position).getBleyenda().equals("")){
+            leyenda = "<div class=\"legend\">"+objnotas.get(position).getBleyenda()+"</div>";
+        }
+
+        if(objnotas.get(position).getBimagen()==null || objnotas.get(position).getBvideo().equals("si")){
              summary = "<!DOCTYPE html>" +
                     "<html><head><meta charset='utf-8'>" +
                     "<style>"+css1+"</style></head>" +
@@ -150,32 +163,44 @@ public class ViewPagerAdapter extends PagerAdapter {
                     "<div class='txtnote'>"+objnotas.get(position).getBnota()+"</div>"+
                     "</article>" +
                     "</section>" +
+                     "<footer><hr>" +
+                     "<em>&copy; 2004 - "+today.year+" <br>www.boliviaentusmanos.com</em>" +
+                     "</footer>" +
                     "</div>" +
                     "</body></html>";
         }else{
-             summary = "<!DOCTYPE html>" +
-                    "<html><head><meta charset='utf-8'>" +
-                    "<style>"+css1+"</style></head>" +
-                    "<body>" +
-                    "<div id='content'>" +
-                    "<section>" +
-                    "<article class='news'>" +
-                    "<h5>"+mayus+"</h5>\n" +
-                    "            <h1>"+objnotas.get(position).getBtitulo()+"</h1>" +
-                    "<div class=\"autor\">" +
-                    "                "+objnotas.get(position).getBautor().toUpperCase()+" - " + formatoDeFecha.format(fecha) +
-                    "            </div>"+
-                    "<div class='nimg'><img src=\"http://www.boliviaentusmanos.com/noticias/images/"+objnotas.get(position).getBimagen()+".jpg\"></div>" +
-                    "<div class='txtnote'>"+objnotas.get(position).getBnota()+"</div>"+
-                    "</article>" +
-                    "</section>" +
-                     "<footer></"+
-                    "</div>" +
-                    "</body></html>";
+
+                summary = "<!DOCTYPE html>" +
+                        "<html><head><meta charset='utf-8'>" +
+                        "<style>"+css1+"</style></head>" +
+                        "<body>" +
+                        "<div id='content'>" +
+                        "<section>" +
+                        "<article class='news'>" +
+                        "<h5>"+mayus+"</h5>\n" +
+                        "            <h1>"+objnotas.get(position).getBtitulo()+"</h1>" +
+                        "<div class=\"autor\">" +
+                        "                "+objnotas.get(position).getBautor().toUpperCase()+" - " + formatoDeFecha.format(fecha) +
+                        "</div>"+
+                        "<div class='nimg'><img src=\"http://www.boliviaentusmanos.com/noticias/images/"+objnotas.get(position).getBimagen()+".jpg\">" +
+                        leyenda +
+                        "</div>" +
+                        "<div class='txtnote'>"+objnotas.get(position).getBnota()+"</div>"+
+                        "</article>" +
+                        "</section>" +
+                        "<footer><hr>" +
+                        "<em>&copy; 2004 - "+today.year+" <br>www.boliviaentusmanos.com</em>" +
+                        "</footer>"+
+                        "</div>" +
+                        "</body></html>";
+
+
         }
         holder.vistanota.getSettings().setJavaScriptEnabled(true);
         holder.vistanota.getSettings().setPluginState(WebSettings.PluginState.ON);
+
         holder.vistanota.setWebChromeClient(new WebChromeClient() {
+
         });
 
         holder.vistanota.loadData(summary, "text/html; charset=UTF-8", null);

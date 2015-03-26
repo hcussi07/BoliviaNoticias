@@ -1,6 +1,7 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebChromeClient;
@@ -13,6 +14,12 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class VideosVirales extends YouTubeBaseActivity implements
         YouTubePlayer.OnInitializedListener{
@@ -28,19 +35,28 @@ public class VideosVirales extends YouTubeBaseActivity implements
         Bundle bundle = getIntent().getExtras();
         VIDEO_ID = bundle.getString("idvideo");
         String desc = bundle.getString("contenido");
-        String titulo = bundle.getString("titulo");
+
+        Noticia obj = bundle.getParcelable("objeto");
 
         WebView video = (WebView)findViewById(R.id.webViewViral);
-        /*TextView tit = (TextView)findViewById(R.id.tituloVideo);
-        tit.setText(titulo);
-        TextView descrip = (TextView)findViewById(R.id.notaVideo);
-        descrip.setText(desc);*/
 
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView)findViewById(R.id.youtubeplayerview);
         youTubePlayerView.initialize(API_KEY, this);
 
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        String strfecha = obj.getBfecha();
+        Calendar calendario = GregorianCalendar.getInstance();
+        Date fecha = calendario.getTime();
+        SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            fecha = formatoDelTexto.parse(strfecha);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
         String css1 = "ul {list-style: none; display:block}" +
                 "li{display:block}#content{width:100%}" +
+                "footer{text-align:center}" +
                 "section, article{display:block}" +
                 "#content .autor{overflow:hidden; color:#666; margin-bottom:5px}" +
                 "#content .autor li{float:left; padding-left:2px;}" +
@@ -65,26 +81,64 @@ public class VideosVirales extends YouTubeBaseActivity implements
                 "#content article.news #adds{display:none}";
         String summary;
 
-            summary = "<!DOCTYPE html>" +
-                    "<html><head><meta charset='utf-8'>" +
-                    "<style>"+css1+"</style></head>" +
-                    "<body>" +
-                    "<div id='content'>" +
-                    "<section>" +
-                    "<article class='news'>" +
-                    "<h5></h5>\n" +
-                    "            <h1>"+titulo+"</h1>" +
-                    "<div class=\"autor\">" +
-                    "              <ul>" +
-                    "                <li class=\"datetxt\"> -</li>" +
-                    "                <li class=\"datetxt\"></li>" +
-                    "              </ul>" +
-                    "            </div>"+
-                    "<div class='txtnote'>"+desc+"</div>"+
-                    "</article>" +
-                    "</section>" +
-                    "</div>" +
-                    "</body></html>";
+        String mayus = "";
+        switch (obj.getBtipo()){
+            case "bol":
+                mayus = "BOLIVIA";
+                break;
+            case "int":
+                mayus = "INTERNACIONAL";
+                break;
+            case "dep":
+                mayus = "DEPORTE";
+                break;
+            case "eco":
+                mayus = "ECONOMIA";
+                break;
+            case "ent":
+                mayus = "ENTRETENIMIENTO";
+                break;
+            case "tec":
+                mayus = "CIENCIA Y TECNOLOGIA";
+                break;
+            case "sal":
+                mayus = "SALUD";
+                break;
+            case "cul":
+                mayus = "CULTURA";
+                break;
+            case "ten":
+                mayus = "TENDENCIAS";
+                break;
+            case "dia":
+                mayus = "ENTREVISTAS";
+                break;
+        }
+
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+
+        summary = "<!DOCTYPE html>" +
+                "<html><head><meta charset='utf-8'>" +
+                "<style>"+css1+"</style></head>" +
+                "<body>" +
+                "<div id='content'>" +
+                "<section>" +
+                "<article class='news'>" +
+                "<h5>"+mayus+"</h5>\n" +
+                "            <h1>"+obj.getBtitulo()+"</h1>" +
+                "<div class=\"autor\">" +
+                "                "+obj.getBautor().toUpperCase()+" -" +
+                "                "+formatoDeFecha.format(fecha)+"" +
+                "            </div>"+
+                "<div class='txtnote'>"+desc+"</div>"+
+                "</article>" +
+                "</section>" +
+                "<footer><hr>" +
+                "<em>&copy; 2004 - "+today.year+" <br>www.boliviaentusmanos.com</em>" +
+                "</footer>" +
+                "</div>" +
+                "</body></html>";
 
         video.getSettings().setJavaScriptEnabled(true);
         video.getSettings().setPluginState(WebSettings.PluginState.ON);

@@ -63,7 +63,7 @@ public class MyAdapterVideosVirales extends RecyclerView.Adapter<MyAdapterVideos
 //                intent.putExtra("pos", position);
                 intent.putExtra("contenido", id[0]);
                 intent.putExtra("idvideo",id[1]);
-                intent.putExtra("titulo",pojos.get(position).getBtitulo());
+                intent.putExtra("objeto",pojos.get(position));
 //                intent.putExtra("arraylist", pojos);
                 holder.view.getContext().startActivity(intent);
 

@@ -7,4 +7,5 @@
     <string name="title_activity_el_dia_en_imagenes">ElDiaEnImagenes</string>
     <string name="title_activity_image_view_pager">ImageViewPager</string>
     <string name="title_activity_videos_virales">VideosVirales</string>
+    <string name="refresh">actualizar</string>
 </resources>

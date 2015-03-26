@@ -1,6 +1,13 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,6 +33,8 @@ public class MainActivity extends ActionBarActivity {
     private RecyclerView.Adapter mAdapter, mAdapterBolivia, mAdapterInt,mAdapterImg, mAdapterVideo;
     private RecyclerView.LayoutManager mLayoutManager, mLayoutManagerBolivia,mLayoutManagerInt,mLayoutManagerImg, mLayoutManagerVideo;
 
+    ProgressDialog progressDialog;
+
     String url = "http://www.boliviaentusmanos.com/app-web/get_all_portada.php";
     String url2 = "http://www.boliviaentusmanos.com/app-web/get_all_nbolivia.php";
     String url3 = "http://www.boliviaentusmanos.com/app-web/get_all_ninternacional.php";
@@ -37,14 +47,40 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.actionbar_custom_view_home);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setHomeButtonEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+        progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setTitle("Cargando");
         progressDialog.setMessage("Espere...");
         progressDialog.show();
 
-        //DESDE AQUI PARA NOTICIAS DE LA PORTADA
+        try{
+            //DESDE AQUI PARA NOTICIAS DE LA PORTADA
+            getPortada();
+            //DESDE AQUI NOTICIAS DE BOLIVIA
+            getNoticiasBolivia();
+            //DESDE AQUI NOTICIAS INTERNACIONALES
+            getNoticiasInternacional();
+            //DESDE AQUI EL DIA EN IMAGENES
+            getImagenesDia();
+            //DESDE AQUI VIDEOS VIRALES
+            getVirales();
+        }
+        catch (Exception e){
+            Toast.makeText(this,"No tiene conexion a internet",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void getPortada(){
+
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -72,14 +108,18 @@ public class MainActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error != null) Log.e("MainActivity", error.getMessage());
-                progressDialog.dismiss();
+                if(error != null){
+                    Log.e("MainActivity", error.getMessage());
+                    Toast.makeText(getApplicationContext(),"Sin conexion a internet",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
+    }
 
-        //DESDE AQUI NOTICIAS DE BOLIVIA
+    public void getNoticiasBolivia(){
         mRecyclerViewBolivia = (RecyclerView) findViewById(R.id.my_recycler_view2);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -100,6 +140,7 @@ public class MainActivity extends ActionBarActivity {
                 mAdapterBolivia = new MyAdapterBolivia(noticiasBolivia);
                 mRecyclerViewBolivia.setAdapter(mAdapterBolivia);
                 mRecyclerViewBolivia.setItemAnimator(new DefaultItemAnimator());
+                progressDialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -109,9 +150,43 @@ public class MainActivity extends ActionBarActivity {
         });
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestB);
+    }
 
+    public void getNoticiasInternacional(){
+        mRecyclerViewInt = (RecyclerView) findViewById(R.id.my_recycler_view3);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerViewInt.setHasFixedSize(true);
+        // use a linear layout manager
+        mLayoutManagerInt = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        mRecyclerViewInt.setLayoutManager(mLayoutManagerInt);
 
-        //DESDE AQUI EL DIA EN IMAGENES
+        final ArrayList<Noticia> noticiasInt = new ArrayList<Noticia>();
+
+        final GSONRequest gsonRequestI = new GSONRequest(url3,Noticias.class, null, new Response.Listener<Noticias>() {
+            @Override
+            public void onResponse(Noticias response) {
+
+                for (int i = 0; i < response.getNoticias().size();i++){
+                    Noticia productItem = response.getNoticias().get(i);
+                    noticiasInt.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(),productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
+                }
+                mAdapterInt = new MyAdapterInternacional(noticiasInt);
+                mRecyclerViewInt.setAdapter(mAdapterInt);
+                mRecyclerViewInt.setItemAnimator(new DefaultItemAnimator());
+                progressDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error != null) Log.e("MainActivity", error.getMessage());
+            }
+        });
+
+        VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestI);
+    }
+
+    public void getImagenesDia(){
         mRecyclerViewImg = (RecyclerView) findViewById(R.id.my_recycler_view4);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -121,7 +196,6 @@ public class MainActivity extends ActionBarActivity {
         mRecyclerViewImg.setLayoutManager(mLayoutManagerImg);
 
         final ArrayList<Noticia> imagenes = new ArrayList<Noticia>();
-
 
         final GSONRequest gsonRequestIm = new GSONRequest(url4,Noticias.class, null, new Response.Listener<Noticias>() {
             @Override
@@ -146,44 +220,9 @@ public class MainActivity extends ActionBarActivity {
         });
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestIm);
+    }
 
-
-        //DESDE AQUI NOTICIAS INTERNACIONALES
-
-        mRecyclerViewInt = (RecyclerView) findViewById(R.id.my_recycler_view3);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerViewInt.setHasFixedSize(true);
-        // use a linear layout manager
-        mLayoutManagerInt = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
-        mRecyclerViewInt.setLayoutManager(mLayoutManagerInt);
-
-        final ArrayList<Noticia> noticiasInt = new ArrayList<Noticia>();
-
-        final GSONRequest gsonRequestI = new GSONRequest(url3,Noticias.class, null, new Response.Listener<Noticias>() {
-            @Override
-            public void onResponse(Noticias response) {
-
-                for (int i = 0; i < response.getNoticias().size();i++){
-                    Noticia productItem = response.getNoticias().get(i);
-                    noticiasInt.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(),productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
-                }
-                mAdapterInt = new MyAdapterInternacional(noticiasInt);
-                mRecyclerViewInt.setAdapter(mAdapterInt);
-                mRecyclerViewInt.setItemAnimator(new DefaultItemAnimator());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(error != null) Log.e("MainActivity", error.getMessage());
-            }
-        });
-
-        VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestI);
-
-
-        //DESDE AQUI VIDEOS VIRALES
-
+    public void getVirales(){
         mRecyclerViewVideo = (RecyclerView) findViewById(R.id.my_recycler_view5);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -200,13 +239,13 @@ public class MainActivity extends ActionBarActivity {
 
                 for (int i = 0; i < response.getNoticias().size();i++){
                     Noticia productItem = response.getNoticias().get(i);
-                    videos.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(),productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
+                    videos.add(new Noticia(productItem.getBitem(),productItem.getBtipo(),productItem.getBtitulo(),productItem.getBresumen(),productItem.getBnota(),productItem.getBimagen(),productItem.getBleyenda(),productItem.getBautor(),productItem.getBfecha(),productItem.getBhora(), productItem.getBsector(),productItem.getBvideo(),productItem.getBgaleria(),productItem.getBurlseo()));
                 }
 
                 mAdapterVideo = new MyAdapterVideosVirales(videos);
                 mRecyclerViewVideo.setAdapter(mAdapterVideo);
                 mRecyclerViewVideo.setItemAnimator(new DefaultItemAnimator());
-                //progressDialog.dismiss();
+                progressDialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -217,10 +256,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestVideos);
-
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,16 +267,34 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setTitle("Actualizando");
+                progressDialog.setMessage("Espere...");
+                progressDialog.show();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+                getPortada();
+                getNoticiasBolivia();
+                getNoticiasInternacional();
+                getImagenesDia();
+                getVirales();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
         }
-
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

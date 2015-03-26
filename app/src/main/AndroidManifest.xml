@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -23,22 +23,38 @@
         <activity
             android:name=".NoticiasDespliegue"
             android:hardwareAccelerated="true"
-            android:label="@string/title_activity_noticias_despliegue" >
+            android:label="@string/title_activity_noticias_despliegue"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".ElDiaEnImagenes"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
-            android:label="@string/title_activity_el_dia_en_imagenes" >
+            android:label="@string/title_activity_el_dia_en_imagenes"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".ImageViewPager"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
-            android:label="@string/title_activity_image_view_pager" >
+            android:label="@string/title_activity_image_view_pager"
+            android:parentActivityName=".ElDiaEnImagenes">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ElDiaEnImagenes"/>
         </activity>
         <activity
             android:name=".VideosVirales"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
-            android:label="@string/title_activity_videos_virales" >
+            android:label="@string/title_activity_videos_virales"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
     </application>
 
