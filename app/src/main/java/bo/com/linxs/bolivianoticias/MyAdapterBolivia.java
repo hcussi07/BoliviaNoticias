@@ -1,6 +1,7 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -61,7 +62,8 @@ public class MyAdapterBolivia extends RecyclerView.Adapter<MyAdapterBolivia.View
             mImageLoader = VolleyHelper.getInstance(holder.view.getContext()).getImageLoader();
             mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);
         }else{
-            name.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            name.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
             final float scale = holder.view.getResources().getDisplayMetrics().density;
             int padding_50dp = (int) (50 * scale + 0.5f);
@@ -81,7 +83,7 @@ public class MyAdapterBolivia extends RecyclerView.Adapter<MyAdapterBolivia.View
             //lp.width = padding_40dp;
             //lp.height = padding_40dp;
             //mNetworkImageView.setLayoutParams(layoutParams);
-            lp.gravity = Gravity.TOP;
+            lp.gravity = Gravity.CENTER;
             mNetworkImageView.setLayoutParams(lp);
             //mNetworkImageView.setPadding(15,0,0,0);
             //mNetworkImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -96,6 +98,7 @@ public class MyAdapterBolivia extends RecyclerView.Adapter<MyAdapterBolivia.View
                 intent.putExtra("pos",position);
 
                 intent.putExtra("arraylist",pojos);
+                intent.putExtra("titulo","NOTICIAS DE BOLIVIA");
                 holder.view.getContext().startActivity(intent);
 
 //                Toast.makeText(v.getContext(), "Aqui estoy : " + pojos.get(position).getBitem(), Toast.LENGTH_SHORT).show();

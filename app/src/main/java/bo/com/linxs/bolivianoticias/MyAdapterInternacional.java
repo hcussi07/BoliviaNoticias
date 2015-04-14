@@ -1,6 +1,7 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -58,6 +59,7 @@ public class MyAdapterInternacional extends RecyclerView.Adapter<MyAdapterIntern
             mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);
         }else{
             name.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+            name.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
             final float scale = holder.view.getResources().getDisplayMetrics().density;
             int padding_50dp = (int) (50 * scale + 0.5f);
@@ -70,17 +72,12 @@ public class MyAdapterInternacional extends RecyclerView.Adapter<MyAdapterIntern
             cardView.setLayoutParams(layoutParams);
 
             int padding_40dp = (int) (10 * scale + 0.5f);
-            //layoutParams = mNetworkImageView.getLayoutParams();
 
-            //LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)mNetworkImageView.getLayoutParams();
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(padding_40dp,padding_40dp);
-            //lp.width = padding_40dp;
-            //lp.height = padding_40dp;
-            //mNetworkImageView.setLayoutParams(layoutParams);
-            lp.gravity = Gravity.TOP;
+
+            lp.gravity = Gravity.CENTER;
             mNetworkImageView.setLayoutParams(lp);
-            //mNetworkImageView.setPadding(15,0,0,0);
-            //mNetworkImageView.setScaleType(ImageView.ScaleType.CENTER);
+
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +86,7 @@ public class MyAdapterInternacional extends RecyclerView.Adapter<MyAdapterIntern
 
                 Intent intent = new Intent(holder.view.getContext(), NoticiasDespliegue.class);
                 intent.putExtra("pos",position);
-
+                intent.putExtra("titulo","NOTICIAS INTERNACIONALES");
                 intent.putExtra("arraylist",pojos);
                 holder.view.getContext().startActivity(intent);
 

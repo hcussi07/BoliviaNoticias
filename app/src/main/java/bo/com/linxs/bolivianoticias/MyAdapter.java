@@ -62,7 +62,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                 Intent intent = new Intent(holder.view.getContext(), NoticiasDespliegue.class);
                 intent.putExtra("pos",position);
-
+                intent.putExtra("titulo","NOTICIAS DE PORTADA");
                 intent.putExtra("arraylist",pojos);
                 holder.view.getContext().startActivity(intent);
 

@@ -35,6 +35,7 @@ public class NoticiasDespliegue extends ActionBarActivity {
     CirclePageIndicator circlePageIndicator;
     PagerAdapter adapter;
 
+    private String titulo;
     private int pos;
     private ArrayList<Noticia> noti;
     private ShareActionProvider mShareActionProvider;
@@ -51,6 +52,8 @@ public class NoticiasDespliegue extends ActionBarActivity {
         noti = getIntent().getParcelableArrayListExtra("arraylist");
         Bundle bundle = getIntent().getExtras();
         pos = bundle.getInt("pos");
+        titulo = bundle.getString("titulo");
+        actionBar.setTitle(titulo);
 
         viewPager = (ViewPager)findViewById(R.id.pager);
 

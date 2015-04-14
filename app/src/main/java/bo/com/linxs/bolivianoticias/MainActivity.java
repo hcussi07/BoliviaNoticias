@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,12 +43,24 @@ public class MainActivity extends ActionBarActivity {
     String url4 = "http://www.boliviaentusmanos.com/app-web/get_all_nimagenes.php";
     String url5 = "http://www.boliviaentusmanos.com/app-web/get_all_virales.php";
 
-    TextView textView;
+    TextView textBolivia, textImagenes, textVirales, textInternacional;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textBolivia = (TextView)findViewById(R.id.textBolivia);
+        textImagenes = (TextView)findViewById(R.id.textImagenes);
+        textInternacional = (TextView)findViewById(R.id.textInternacional);
+        textVirales = (TextView)findViewById(R.id.textVirales);
+
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
+        textBolivia.setTypeface(myTypeface);
+        textImagenes.setTypeface(myTypeface);
+        textInternacional.setTypeface(myTypeface);
+        textVirales.setTypeface(myTypeface);
+
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_home);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -72,6 +86,8 @@ public class MainActivity extends ActionBarActivity {
             getImagenesDia();
             //DESDE AQUI VIDEOS VIRALES
             getVirales();
+
+
         }
         catch (Exception e){
             Toast.makeText(this,"No tiene conexion a internet",Toast.LENGTH_SHORT).show();
@@ -110,11 +126,15 @@ public class MainActivity extends ActionBarActivity {
             public void onErrorResponse(VolleyError error) {
                 if(error != null){
                     Log.e("MainActivity", error.getMessage());
-                    Toast.makeText(getApplicationContext(),"Sin conexion a internet",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Sin conexion a internet Portada",Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
+
+        gsonRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequest);
     }
@@ -146,8 +166,12 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                Toast.makeText(getApplicationContext(),"Sin conexion a internet Bolivia",Toast.LENGTH_SHORT).show();
             }
         });
+        gsonRequestB.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestB);
     }
@@ -180,9 +204,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                Toast.makeText(getApplicationContext(),"Sin conexion a internet Internacional",Toast.LENGTH_SHORT).show();
             }
         });
 
+        gsonRequestI.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestI);
     }
 
@@ -215,10 +243,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                Toast.makeText(getApplicationContext(),"Sin conexion a internet Imagenes",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
-
+        gsonRequestIm.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestIm);
     }
 
@@ -251,10 +282,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                Toast.makeText(getApplicationContext(),"Sin conexion a internet Virales",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
-
+        gsonRequestVideos.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(gsonRequestVideos);
     }
 

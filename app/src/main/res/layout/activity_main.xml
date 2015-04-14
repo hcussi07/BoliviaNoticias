@@ -23,8 +23,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="LO ULTIMO DE BOLIVIA"
-                android:id="@+id/textView" />
+                android:text="@string/text_bolivia"
+                android:id="@+id/textBolivia"
+                android:textColor="@color/color_betm"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view2"
@@ -35,8 +37,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="EL DIA EN IMAGENES"
-                android:id="@+id/textView4" />
+                android:text="@string/text_imagenes"
+                android:id="@+id/textImagenes"
+                android:textColor="@color/color_betm"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view4"
@@ -47,8 +51,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="INTERNACIONAL"
-                android:id="@+id/textView2" />
+                android:text="@string/text_internacional"
+                android:id="@+id/textInternacional"
+                android:textColor="@color/color_betm"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view3"
@@ -59,8 +65,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="VIRALES"
-                android:id="@+id/textView3" />
+                android:text="@string/text_virales"
+                android:id="@+id/textVirales"
+                android:textColor="@color/color_betm"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view5"

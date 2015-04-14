@@ -15,11 +15,12 @@
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:foreground="?selectableItemBackground"
             card_view:cardCornerRadius="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="match_parent"
                 android:layout_margin="0dp"
                 android:layout_gravity="left"
                 android:background="#FFF"
@@ -42,7 +43,11 @@
                     android:layout_height="wrap_content"
                     android:text="sad"
                     android:id="@+id/titulob"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:padding="2dp"/>
 
             </LinearLayout>
 
