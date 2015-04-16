@@ -26,7 +26,8 @@
                 android:text="@string/text_bolivia"
                 android:id="@+id/textBolivia"
                 android:textColor="@color/color_betm"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:fontFamily="FjallaOne-Regular"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view2"

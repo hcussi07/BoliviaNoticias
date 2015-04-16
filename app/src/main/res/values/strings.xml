@@ -12,4 +12,6 @@
     <string name="text_imagenes"><u>El día en imágenes</u></string>
     <string name="text_internacional"><u>Internacional</u></string>
     <string name="text_virales"><u>Virales</u></string>
+    <string name="message_error1">Lo sentimos no hemos podido conectarnos a Internet</string>
+    <string name="message_error2">Verifica que tengas conexión a Internet o reitenta más tarde.</string>
 </resources>

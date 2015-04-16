@@ -14,9 +14,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,22 +47,20 @@ public class MainActivity extends ActionBarActivity {
     String url5 = "http://www.boliviaentusmanos.com/app-web/get_all_virales.php";
 
     TextView textBolivia, textImagenes, textVirales, textInternacional;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textBolivia = (TextView)findViewById(R.id.textBolivia);
-        textImagenes = (TextView)findViewById(R.id.textImagenes);
-        textInternacional = (TextView)findViewById(R.id.textInternacional);
-        textVirales = (TextView)findViewById(R.id.textVirales);
+        textoFjallaOne();
 
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
-        textBolivia.setTypeface(myTypeface);
-        textImagenes.setTypeface(myTypeface);
-        textInternacional.setTypeface(myTypeface);
-        textVirales.setTypeface(myTypeface);
+        button = (Button)findViewById(R.id.button);
+
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.activity_my_toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);*/
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.actionbar_custom_view_home);
@@ -68,31 +69,43 @@ public class MainActivity extends ActionBarActivity {
         //actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setHomeButtonEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));
-
         progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setTitle("Cargando");
         progressDialog.setMessage("Espere...");
         progressDialog.show();
 
-        try{
-            //DESDE AQUI PARA NOTICIAS DE LA PORTADA
-            getPortada();
-            //DESDE AQUI NOTICIAS DE BOLIVIA
-            getNoticiasBolivia();
-            //DESDE AQUI NOTICIAS INTERNACIONALES
-            getNoticiasInternacional();
-            //DESDE AQUI EL DIA EN IMAGENES
-            getImagenesDia();
-            //DESDE AQUI VIDEOS VIRALES
-            getVirales();
-
-
+        if(isOnline()){
+            cargar();
+        }else{
+            progressDialog.dismiss();
+            setContentView(R.layout.activity_error);
         }
-        catch (Exception e){
-            Toast.makeText(this,"No tiene conexion a internet",Toast.LENGTH_SHORT).show();
-        }
+    }
 
+    public void textoFjallaOne(){
+        textBolivia = (TextView)findViewById(R.id.textBolivia);
+        textImagenes = (TextView)findViewById(R.id.textImagenes);
+        textInternacional = (TextView)findViewById(R.id.textInternacional);
+        textVirales = (TextView)findViewById(R.id.textVirales);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
+        textBolivia.setTypeface(myTypeface);
+        textImagenes.setTypeface(myTypeface);
+        textInternacional.setTypeface(myTypeface);
+        textVirales.setTypeface(myTypeface);
+    }
+
+    public void cargar(){
+        //DESDE AQUI PARA NOTICIAS DE LA PORTADA
+        getPortada();
+        //DESDE AQUI NOTICIAS DE BOLIVIA
+        getNoticiasBolivia();
+        //DESDE AQUI NOTICIAS INTERNACIONALES
+        getNoticiasInternacional();
+        //DESDE AQUI EL DIA EN IMAGENES
+        getImagenesDia();
+        //DESDE AQUI VIDEOS VIRALES
+        getVirales();
     }
 
     public void getPortada(){
@@ -125,10 +138,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null){
+                    progressDialog.dismiss();
                     Log.e("MainActivity", error.getMessage());
                     Toast.makeText(getApplicationContext(),"Sin conexion a internet Portada",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -166,6 +179,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Sin conexion a internet Bolivia",Toast.LENGTH_SHORT).show();
             }
         });
@@ -204,6 +218,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Sin conexion a internet Internacional",Toast.LENGTH_SHORT).show();
             }
         });
@@ -243,8 +258,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
-                Toast.makeText(getApplicationContext(),"Sin conexion a internet Imagenes",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),"Sin conexion a internet Imagenes",Toast.LENGTH_SHORT).show();
             }
         });
         gsonRequestIm.setRetryPolicy(new DefaultRetryPolicy(5000,
@@ -282,7 +297,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if(error != null) Log.e("MainActivity", error.getMessage());
-                Toast.makeText(getApplicationContext(),"Sin conexion a internet Virales",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Sin conexion a internet Virales", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
@@ -303,17 +318,20 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
-                progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setTitle("Actualizando");
-                progressDialog.setMessage("Espere...");
-                progressDialog.show();
+                if(isOnline()){
+                    setContentView(R.layout.activity_main);
+                    textoFjallaOne();
+                    progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setTitle("Actualizando");
+                    progressDialog.setMessage("Espere...");
+                    progressDialog.show();
 
-                getPortada();
-                getNoticiasBolivia();
-                getNoticiasInternacional();
-                getImagenesDia();
-                getVirales();
+                    cargar();
+                }else{
+                    progressDialog.dismiss();
+                    setContentView(R.layout.activity_error);
+                }
 
                 return true;
             default:
@@ -330,5 +348,22 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return false;
+    }
+
+    public void onLine(View view) {
+        if(isOnline()){
+            setContentView(R.layout.activity_main);
+            textoFjallaOne();
+            progressDialog = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setTitle("Actualizando");
+            progressDialog.setMessage("Espere...");
+            progressDialog.show();
+            cargar();
+        }else{
+            progressDialog.dismiss();
+            setContentView(R.layout.activity_error);
+            Toast.makeText(getApplicationContext(), "Sin conexion a internet", Toast.LENGTH_SHORT).show();
+        }
     }
 }
