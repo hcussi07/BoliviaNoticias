@@ -171,7 +171,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         }else{
 
                 summary = "<!DOCTYPE html>" +
-                        "<html><head><meta charset='utf-8'>" +
+                        "<html><head>" +
                         "<style>"+css1+"</style></head>" +
                         "<body>" +
                         "<div id='content'>" +
@@ -203,7 +203,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         });
 
-        holder.vistanota.loadData(summary, "text/html; charset=UTF-8", null);
+        holder.vistanota.loadDataWithBaseURL("",summary, "text/html", "UTF-8","");
 
         ((ViewPager)container).addView(itemView);
 

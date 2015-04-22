@@ -1,6 +1,7 @@
 package bo.com.linxs.bolivianoticias;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,7 @@ public class MyAdapterBolivia extends RecyclerView.Adapter<MyAdapterBolivia.View
         }else{
             name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             name.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+            name.setTextColor(holder.view.getResources().getColor(R.color.secondary_text));
 
             final float scale = holder.view.getResources().getDisplayMetrics().density;
             int padding_50dp = (int) (50 * scale + 0.5f);

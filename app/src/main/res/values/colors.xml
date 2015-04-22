@@ -11,7 +11,20 @@
     <item name="darkgreen" type="color">#FF669900</item>
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
+
     <item name="primary_color" type="color">#E91E63</item>
     <item name="primary_dark_color" type="color">#AD1457</item>
     <item name="accent_color" type="color">#69F0AE</item>
+
+    <item name="primary" type="color">#F44336</item>
+    <item name="primary_dark" type="color">#D32F2F</item>
+    <item name="primary_light" type="color">#FFCDD2</item>
+    <item name="accent" type="color">#448AFF</item>
+    <item name="primary_text" type="color">#212121</item>
+    <item name="secondary_text" type="color">#727272</item>
+    <item name="icons" type="color">#FFFFFF</item>
+    <item name="divider" type="color">#B6B6B6</item>
+
+    <drawable name="focused">#B6B6B6</drawable>
+    <drawable name="selected">#B6B6B6</drawable>
 </resources>

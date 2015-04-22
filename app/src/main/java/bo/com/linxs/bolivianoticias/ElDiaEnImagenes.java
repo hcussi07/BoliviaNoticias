@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -24,9 +25,13 @@ public class ElDiaEnImagenes extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_el_dia_en_imagenes);
-        ActionBar actionBar = getSupportActionBar();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_despliegue_noticias);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        /*ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));*/
 
         Bundle bundle = getIntent().getExtras();
         int pos = bundle.getInt("position");

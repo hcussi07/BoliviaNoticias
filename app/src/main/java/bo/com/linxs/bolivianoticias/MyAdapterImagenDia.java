@@ -51,6 +51,7 @@ public class MyAdapterImagenDia extends RecyclerView.Adapter<MyAdapterImagenDia.
         TextView name = (TextView) holder.view.findViewById(R.id.tituloImg);
         mNetworkImageView = (NetworkImageView) holder.view.findViewById(R.id.imageViewImg);
         name.setText(pojos.get(position).getBtitulo().toString());
+//        name.setTextColor(holder.view.getResources().getColor(R.color.secondary_text));
 
         final String  img = pojos.get(position).getBnota();
 

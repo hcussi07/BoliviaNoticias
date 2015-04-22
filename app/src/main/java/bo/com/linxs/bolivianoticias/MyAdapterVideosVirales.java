@@ -49,6 +49,7 @@ public class MyAdapterVideosVirales extends RecyclerView.Adapter<MyAdapterVideos
         TextView name = (TextView) holder.view.findViewById(R.id.btituloVid);
         mNetworkImageView = (NetworkImageView) holder.view.findViewById(R.id.imageViewVid);
         name.setText(pojos.get(position).getBtitulo());
+//        name.setTextColor(holder.view.getResources().getColor(R.color.secondary_text));
         String IMAGE_URL = "http://www.boliviaentusmanos.com/noticias/images/"+pojos.get(position).getBimagen()+".jpg";
         mImageLoader = VolleyHelper.getInstance(holder.view.getContext()).getImageLoader();
         mNetworkImageView.setImageUrl(IMAGE_URL, mImageLoader);

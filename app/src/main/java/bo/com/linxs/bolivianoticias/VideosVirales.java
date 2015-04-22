@@ -145,7 +145,7 @@ public class VideosVirales extends YouTubeBaseActivity implements
         video.setWebChromeClient(new WebChromeClient() {
         });
 
-        video.loadData(summary, "text/html; charset=UTF-8", null);
+        video.loadDataWithBaseURL("",summary, "text/html", "UTF-8","");
 
     }
 
@@ -177,9 +177,6 @@ public class VideosVirales extends YouTubeBaseActivity implements
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

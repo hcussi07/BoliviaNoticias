@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#333333"
     tools:context="bo.com.linxs.betmapp.Splash_Screen">
 
     <LinearLayout
@@ -18,20 +17,19 @@
             android:id="@+id/mensaje1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#e7e7e8"
+            android:textColor="@color/primary_text"
             android:text="@string/message_error1"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textAlignment="center"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/mensaje2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#e7e7e8"
+            android:textColor="@color/secondary_text"
             android:text="@string/message_error2"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"

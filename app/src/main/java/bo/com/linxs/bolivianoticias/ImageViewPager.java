@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +28,13 @@ public class ImageViewPager extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_view_pager);
-        ActionBar actionBar = getSupportActionBar();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_despliegue_noticias);
+        setSupportActionBar(toolbar);
+
+        /*ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#bb1904")));*/
 
         ArrayList<String> noti = getIntent().getStringArrayListExtra("arraylist");
         ArrayList<String> noti2 = getIntent().getStringArrayListExtra("arraylist2");
@@ -62,9 +67,7 @@ public class ImageViewPager extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

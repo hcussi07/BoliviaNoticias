@@ -2,21 +2,26 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:orientation="vertical"
+    android:background="@color/primary_text"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_despliegue_noticias" />
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicatorImagen"
         android:padding="10dip"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:background="#FFCCCCCC"
+        android:background="@color/primary"
         app:radius="5dp"
-        app:fillColor="#88FF0000"
-        app:pageColor="#FF888888"
-        app:strokeColor="#FF000000"
-        app:strokeWidth="2dp"
-        />
+        app:fillColor="@color/accent"
+        app:pageColor="@color/primary"
+        app:strokeColor="@color/primary_light"
+        app:strokeWidth="2dp"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pagerImagen"

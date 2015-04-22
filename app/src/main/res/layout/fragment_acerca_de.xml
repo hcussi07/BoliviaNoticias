@@ -1,0 +1,47 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:text="Acerca de boliviaentusmanos.com"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/primary_text"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary_text"
+        android:text="Diseño de Páginas Web para todo tipo de empresas. Diseño web de alta calidad con excelente servicio de Atención al Cliente. Publicidad en Internet, Posicionamiento Web. Servicios de Multimedia, CD Interactivos, Material de Merchandising. Social Media. Desarrollo de Software. Web Hosting. Publicidad. Dominios. Directorio empresarial amarillas. Recursos Humanos."
+        android:id="@+id/textView2"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/primary_text"
+        android:text="CONTÁCTANOS"
+        android:id="@+id/btn_contacto"
+        android:onClick="vercontacto"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

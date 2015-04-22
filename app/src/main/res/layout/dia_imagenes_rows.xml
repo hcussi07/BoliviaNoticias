@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="0dp"
-            android:background="#FFF">
+            android:background="@color/secondary_text">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:layout_width="250dp"

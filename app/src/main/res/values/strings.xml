@@ -14,4 +14,31 @@
     <string name="text_virales"><u>Virales</u></string>
     <string name="message_error1">Lo sentimos no hemos podido conectarnos a Internet</string>
     <string name="message_error2">Verifica que tengas conexión a Internet o reitenta más tarde.</string>
+    <string name="title_activity_principal">Bolivia en tus manos</string>
+
+    <!-- Drawer Menu items -->
+    <string-array name="nav_drawer_items">
+        <item>Inicio</item>
+        <item>Bolivia</item>
+        <item>Internacional</item>
+        <item>Imagenes</item>
+        <item>Virales</item>
+        <item>Acerca de</item>
+    </string-array>
+
+    <!-- Sliding Menu item icons -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_action_home</item>
+        <item>@drawable/ic_action_bolivia</item>
+        <item>@drawable/ic_action_internacional</item>
+        <item>@drawable/ic_action_imagenes</item>
+        <item>@drawable/ic_action_media</item>
+        <item>@drawable/ic_action_acerca</item>
+    </array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_contacto">Contacto</string>
+    <string name="enviar_correo">Contáctanos</string>
+    <string name="envio_si">Enviar</string>
+    <string name="envio_cancel">Cancelar</string>
 </resources>

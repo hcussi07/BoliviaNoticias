@@ -60,6 +60,7 @@ public class MyAdapterInternacional extends RecyclerView.Adapter<MyAdapterIntern
         }else{
             name.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
             name.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+            name.setTextColor(holder.view.getResources().getColor(R.color.secondary_text));
 
             final float scale = holder.view.getResources().getDisplayMetrics().density;
             int padding_50dp = (int) (50 * scale + 0.5f);
